@@ -41,4 +41,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(KompetensiInti::class);
     }
+
+    public function kompetensi_dasar()
+    {
+        return $this->hasMany(KompetensiDasar::class);
+    }
 }

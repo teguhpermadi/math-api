@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class KompetensiIntiResource extends JsonResource
+class KompetensiDasarResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,6 +16,8 @@ class KompetensiIntiResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'jenis' => $this->jenis,
+            'kode' => $this->kode,
             'deskripsi' => $this->deskripsi,
             'created_by' => new UserResource($this->user),
         ];
