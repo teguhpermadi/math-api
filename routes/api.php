@@ -19,6 +19,11 @@ Route::get('kd/{id}', 'Api\KompetensiDasarController@show')->middleware('auth:ap
 Route::put('kd/{id}', 'Api\KompetensiDasarController@update')->middleware('auth:api');
 Route::delete('kd/{id}', 'Api\KompetensiDasarController@delete')->middleware('auth:api');
 
+// kd pengetahuan
+Route::get('kd_pengetahuan', 'Api\KompetensiDasarController@pengetahuan')->middleware('auth:api');
+Route::get('kd_keterampilan', 'Api\KompetensiDasarController@keterampilan')->middleware('auth:api');
+
+
 // indikator
 Route::get('indikator', 'Api\IndikatorController@index')->middleware('auth:api');
 Route::post('indikator', 'Api\IndikatorController@store')->middleware('auth:api');

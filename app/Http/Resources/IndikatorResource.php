@@ -18,7 +18,7 @@ class IndikatorResource extends JsonResource
             'id' => $this->id,
             'kode' => $this->kode,
             'deskripsi' => $this->deskripsi,
-            'kd' => new KompetensiDasarResource($this->kd),
+            'kompetensidasar_id' => new KompetensiDasarResource($this->kompetensidasar),
             'created_by' => new UserResource($this->user),
         ];
     }

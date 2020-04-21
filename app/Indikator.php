@@ -13,7 +13,7 @@ class Indikator extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function kompetensi_dasar()
+    public function kompetensidasar()
     {
         return $this->belongsTo(KompetensiDasar::class);
     }

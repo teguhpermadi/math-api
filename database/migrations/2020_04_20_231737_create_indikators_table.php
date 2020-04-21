@@ -16,13 +16,13 @@ class CreateIndikatorsTable extends Migration
         Schema::create('indikators', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('kd_id');
+            $table->unsignedBigInteger('kompetensidasar_id');
             $table->text('kode');
             $table->text('deskripsi');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('kd_id')->references('id')->on('kompetensi_dasars')->onDelete('cascade');
+            $table->foreign('kompetensidasar_id')->references('id')->on('kompetensi_dasars')->onDelete('cascade');
 
         });
     }

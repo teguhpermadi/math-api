@@ -12,7 +12,7 @@ class KompetensiIntiController extends Controller
     public function index()
     {
         // $ki = KompetensiInti::get(); // diurutkan berdasarkan id terkecil
-        $ki = KompetensiInti::paginate(1); // pagination
+        $ki = KompetensiInti::paginate(10); // pagination
         // $ki = KompetensiInti::latest()->get(); // diurutkan berdasarkan id terbesar
 
         return KompetensiIntiResource::collection($ki);

@@ -68,4 +68,16 @@ class KompetensiDasarController extends Controller
         
         return ['message' => 'Data was deleted'];
     }
+
+    public function pengetahuan()
+    {
+        $kd = KompetensiDasar::where('jenis', 'pengetahuan')->paginate(10);
+        return KompetensiDasarResource::collection($kd);
+    }
+
+    public function keterampilan()
+    {
+        $kd = KompetensiDasar::where('jenis', 'keterampilan')->paginate(10);
+        return KompetensiDasarResource::collection($kd);
+    }
 }
