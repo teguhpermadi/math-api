@@ -18,3 +18,10 @@ Route::post('kd', 'Api\KompetensiDasarController@store')->middleware('auth:api')
 Route::get('kd/{id}', 'Api\KompetensiDasarController@show')->middleware('auth:api');
 Route::put('kd/{id}', 'Api\KompetensiDasarController@update')->middleware('auth:api');
 Route::delete('kd/{id}', 'Api\KompetensiDasarController@delete')->middleware('auth:api');
+
+// indikator
+Route::get('indikator', 'Api\IndikatorController@index')->middleware('auth:api');
+Route::post('indikator', 'Api\IndikatorController@store')->middleware('auth:api');
+Route::get('indikator/{id}', 'Api\IndikatorController@show')->middleware('auth:api');
+Route::put('indikator/{id}', 'Api\IndikatorController@update')->middleware('auth:api');
+Route::delete('indikator/{id}', 'Api\IndikatorController@delete')->middleware('auth:api');

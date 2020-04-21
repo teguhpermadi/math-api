@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class KompetensiDasar extends Model
+class Indikator extends Model
 {
     protected $guarded = [];
 
@@ -13,8 +13,8 @@ class KompetensiDasar extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function indikator()
+    public function kompetensi_dasar()
     {
-        return $this->hasMany(Indikator::class);
+        return $this->belongsTo(KompetensiDasar::class);
     }
 }
