@@ -9,13 +9,7 @@ use Illuminate\Http\Request;
 
 class IndikatorController extends Controller
 {
-    public function index()
-    {
-        $ind = Indikator::paginate(10);
-
-        return IndikatorResource::collection($ind);
-    }
-
+    
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -33,17 +27,6 @@ class IndikatorController extends Controller
         ]);
 
         return new IndikatorResource($ind);
-    }
-
-    public function show($id)
-    {
-        $ind = Indikator::find($id);
-
-        if(!empty($kd)){
-            return new IndikatorResource($ind);
-        } else {
-            return ['error' => 'Data not found'];
-        }
     }
 
     public function update(Request $request, $id)
@@ -65,5 +48,20 @@ class IndikatorController extends Controller
         $ind->delete();
 
         return ['message' => "Data was deleted"];
+    }
+
+    public function get(Request $request)
+    {
+        $id = $request->id;
+
+        if(empty($id))
+        {
+            $ind = Indikator::paginate(10);
+            return IndikatorResource::collection($ind);
+        } else if(!empty($id))
+        {
+            $ind = Indikator::find($id);
+            return new IndikatorResource($ind);
+        }
     }
 }

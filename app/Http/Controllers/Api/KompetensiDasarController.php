@@ -4,29 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\KompetensiDasarResource;
+use App\Indikator;
 use App\KompetensiDasar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KompetensiDasarController extends Controller
 {
-    public function index()
-    {
-        $kd = KompetensiDasar::paginate(10);
-
-        return KompetensiDasarResource::collection($kd);
-    }
-    
-    public function show($id)
-    {
-        $kd = KompetensiDasar::find($id);
-
-        if(!empty($kd)){
-            return new KompetensiDasarResource($kd);
-        } else {
-            return ['error' => 'Data not found'];
-        }
-    }
-
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -69,15 +53,42 @@ class KompetensiDasarController extends Controller
         return ['message' => 'Data was deleted'];
     }
 
-    public function pengetahuan()
+    public function get(Request $request)
     {
-        $kd = KompetensiDasar::where('jenis', 'pengetahuan')->paginate(10);
-        return KompetensiDasarResource::collection($kd);
-    }
+        $id = $request->id;
+        $jenis = $request->jenis;
+        $indikator = $request->indikator;
 
-    public function keterampilan()
-    {
-        $kd = KompetensiDasar::where('jenis', 'keterampilan')->paginate(10);
-        return KompetensiDasarResource::collection($kd);
+        if(empty($id) && empty($jenis))
+        {
+            $kd = KompetensiDasar::paginate(10);
+            return KompetensiDasarResource::collection($kd);
+        } else if(!empty($id) && empty($indikator))
+        {
+            $kd = KompetensiDasar::find($id);
+            return new KompetensiDasarResource($kd);
+        } else if(!empty($jenis) && empty($indikator))
+        {
+            $kd = KompetensiDasar::where('jenis', $jenis)->paginate(10);
+            return KompetensiDasarResource::collection($kd);
+            // return $kd;
+        } else if(!empty($id) && !empty($indikator))
+        {
+            $kd = KompetensiDasar::find($id);
+            $ind = Indikator::where('kompetensidasar_id', $kd['id'])->get();
+
+            return [
+                'data' => [
+                    'id' => $kd['id'],
+                    'jenis' => $kd['jenis'],
+                    'kode' => $kd['kode'],
+                    'deskripsi' => $kd['deskripsi'],
+                    'indikator' => $ind,
+                ]
+            ];
+        } else if(empty($id) && !empty($indikator))
+        {
+            
+        }
     }
 }

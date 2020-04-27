@@ -9,25 +9,17 @@ use Illuminate\Http\Request;
 
 class KompetensiIntiController extends Controller
 {
-    public function index()
+    public function get(Request $request)
     {
-        // $ki = KompetensiInti::get(); // diurutkan berdasarkan id terkecil
-        $ki = KompetensiInti::paginate(10); // pagination
-        // $ki = KompetensiInti::latest()->get(); // diurutkan berdasarkan id terbesar
+        $id = $request->id;
 
-        return KompetensiIntiResource::collection($ki);
-    }
-
-    public function show($id)
-    {
-        $ki = KompetensiInti::find($id);
-
-        if(!empty($ki)){
-            // jika data ditemukan
+        if(empty($id)){ // jika tidak mengirimkan id maka tampilkan semua datanya
+            $ki = KompetensiInti::paginate(10); // pagination
+            return KompetensiIntiResource::collection($ki);
+        } else if(!empty($id)) // jika mengirimkan id maka tampilkan satu datanya
+        {
+            $ki = KompetensiInti::find($id);
             return new KompetensiIntiResource($ki);
-        } else {
-            // jika data tidak ditemukan
-            return ['error' => 'Data not found'];
         }
     }
 
