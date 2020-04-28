@@ -59,22 +59,17 @@ class KompetensiDasarController extends Controller
         $jenis = $request->jenis;
         $indikator = $request->indikator;
 
-        if(empty($id) && empty($jenis))
+        $params = ['id' => $id, 'jenis' => $jenis, 'indikator' => $indikator];
+
+        if(isset($params['id']) == false && isset($params['jenis']) == false && isset($params['indikator']) == false)
         {
+            // jika tidak mengirimkan parameter
             $kd = KompetensiDasar::paginate(10);
             return KompetensiDasarResource::collection($kd);
-        } else if(!empty($id) && empty($indikator))
-        {
-            $kd = KompetensiDasar::find($id);
-            return new KompetensiDasarResource($kd);
-        } else if(!empty($jenis) && empty($indikator))
-        {
-            $kd = KompetensiDasar::where('jenis', $jenis)->paginate(10);
-            return KompetensiDasarResource::collection($kd);
-            // return $kd;
-        } else if(!empty($id) && !empty($indikator))
-        {
-            $kd = KompetensiDasar::find($id);
+        } else if(isset($params['id']) == true && isset($params['indikator']) == true)
+        { 
+            // jika mengirimkan id dan indikator
+            $kd = KompetensiDasar::find($params['id']);
             $ind = Indikator::where('kompetensidasar_id', $kd['id'])->get();
 
             return [
@@ -86,9 +81,46 @@ class KompetensiDasarController extends Controller
                     'indikator' => $ind,
                 ]
             ];
-        } else if(empty($id) && !empty($indikator))
+        } else if(isset($params['id']) == true AND isset($params['indikator']) == false)
         {
-            
+            // jika mengirimkan id dan tidak mengirimkan indikator
+            $kd = KompetensiDasar::find($params['id']);
+            return new KompetensiDasarResource($kd);
+        } else if(isset($params['jenis']) == true AND isset($params['indikator']) == true)
+        {
+            // mengirimkan jenis dan indikator
+            $kompetensidasar = KompetensiDasar::where('jenis', $params['jenis'])->get();
+            return $kompetensidasar;
         }
+
+        // if(empty($id) && empty($jenis))
+        // {
+        //     $kd = KompetensiDasar::paginate(10);
+        //     return KompetensiDasarResource::collection($kd);
+        // } else if(!empty($id) && empty($indikator))
+        // {
+        //     $kd = KompetensiDasar::find($id);
+        //     return new KompetensiDasarResource($kd);
+        // } else if(!empty($jenis) && empty($indikator))
+        // {
+        //     $kd = KompetensiDasar::where('jenis', $jenis)->paginate(10);
+        //     return KompetensiDasarResource::collection($kd);
+        // } else if(!empty($id) && !empty($indikator))
+        // {
+        //     $kd = KompetensiDasar::find($id);
+        //     $ind = Indikator::where('kompetensidasar_id', $kd['id'])->get();
+
+        //     return [
+        //         'data' => [
+        //             'id' => $kd['id'],
+        //             'jenis' => $kd['jenis'],
+        //             'kode' => $kd['kode'],
+        //             'deskripsi' => $kd['deskripsi'],
+        //             'indikator' => $ind,
+        //         ]
+        //     ];
+        // } else if(empty($id) && !empty($indikator))
+        // {
+        // }
     }
 }
