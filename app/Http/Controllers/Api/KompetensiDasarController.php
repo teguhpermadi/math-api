@@ -89,8 +89,10 @@ class KompetensiDasarController extends Controller
         } else if(isset($params['jenis']) == true AND isset($params['indikator']) == true)
         {
             // mengirimkan jenis dan indikator
-            $kompetensidasar = KompetensiDasar::where('jenis', $params['jenis'])->get();
-            return $kompetensidasar;
+            $kd = DB::table('kompetensi_dasars')
+                    ->join('indikators', 'kompetensi_dasars.id', '=', 'indikators.kompetensidasar_id')
+                    ->get();
+            return $kd;
         }
 
         // if(empty($id) && empty($jenis))
