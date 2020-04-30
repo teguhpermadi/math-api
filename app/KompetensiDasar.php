@@ -15,6 +15,6 @@ class KompetensiDasar extends Model
 
     public function indikator()
     {
-        return $this->hasMany(Indikator::class);
+        return $this->hasMany(Indikator::class, 'kompetensidasar_id', 'id');
     }
 }

@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\KDIndikatorResource;
 use App\Http\Resources\KompetensiDasarResource;
-use App\Indikator;
 use App\KompetensiDasar;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class KompetensiDasarController extends Controller
 {
@@ -57,72 +56,33 @@ class KompetensiDasarController extends Controller
     {
         $id = $request->id;
         $jenis = $request->jenis;
-        $indikator = $request->indikator;
 
-        $params = ['id' => $id, 'jenis' => $jenis, 'indikator' => $indikator];
-
-        if(isset($params['id']) == false && isset($params['jenis']) == false && isset($params['indikator']) == false)
-        {
-            // jika tidak mengirimkan parameter
-            $kd = KompetensiDasar::paginate(10);
-            return KompetensiDasarResource::collection($kd);
-        } else if(isset($params['id']) == true && isset($params['indikator']) == true)
-        { 
-            // jika mengirimkan id dan indikator
-            $kd = KompetensiDasar::find($params['id']);
-            $ind = Indikator::where('kompetensidasar_id', $kd['id'])->get();
-
-            return [
-                'data' => [
-                    'id' => $kd['id'],
-                    'jenis' => $kd['jenis'],
-                    'kode' => $kd['kode'],
-                    'deskripsi' => $kd['deskripsi'],
-                    'indikator' => $ind,
-                ]
-            ];
-        } else if(isset($params['id']) == true AND isset($params['indikator']) == false)
-        {
-            // jika mengirimkan id dan tidak mengirimkan indikator
-            $kd = KompetensiDasar::find($params['id']);
-            return new KompetensiDasarResource($kd);
-        } else if(isset($params['jenis']) == true AND isset($params['indikator']) == true)
-        {
-            // mengirimkan jenis dan indikator
-            $kd = DB::table('kompetensi_dasars')
-                    ->join('indikators', 'kompetensi_dasars.id', '=', 'indikators.kompetensidasar_id')
-                    ->get();
-            return $kd;
+        switch (true) {
+            case ($request->has('id') and $request->has('indikator')):
+                // mengirimkan id dan indikator (dengan indikator)
+                $kd = KompetensiDasar::find($id);
+                return new KDIndikatorResource($kd);
+                break;
+            case ($request->has('jenis') and $request->has('indikator')):
+                // mengirimkan jenis dan indikator (dengan indikator)
+                $kd = KompetensiDasar::where('jenis', $jenis)->paginate();
+                return KDIndikatorResource::collection($kd);
+                break;
+            case ($request->has('id')):
+                // mengirimkan parameter id (tanpa indikator)
+                $kd = KompetensiDasar::find($id);
+                return new KompetensiDasarResource($kd);
+                break;
+            case ($request->has('jenis')):
+                // mengirimkan param jenis (tanpa indikator)
+                $kd = KompetensiDasar::where('jenis', $jenis)->get();
+                return KompetensiDasarResource::collection($kd);
+                break;
+            default:
+                // tidak mengirimkan parameter sama sekali (tanpa indikator)
+                $kd = KompetensiDasar::paginate(10);
+                return KompetensiDasarResource::collection($kd);
+                break;
         }
-
-        // if(empty($id) && empty($jenis))
-        // {
-        //     $kd = KompetensiDasar::paginate(10);
-        //     return KompetensiDasarResource::collection($kd);
-        // } else if(!empty($id) && empty($indikator))
-        // {
-        //     $kd = KompetensiDasar::find($id);
-        //     return new KompetensiDasarResource($kd);
-        // } else if(!empty($jenis) && empty($indikator))
-        // {
-        //     $kd = KompetensiDasar::where('jenis', $jenis)->paginate(10);
-        //     return KompetensiDasarResource::collection($kd);
-        // } else if(!empty($id) && !empty($indikator))
-        // {
-        //     $kd = KompetensiDasar::find($id);
-        //     $ind = Indikator::where('kompetensidasar_id', $kd['id'])->get();
-
-        //     return [
-        //         'data' => [
-        //             'id' => $kd['id'],
-        //             'jenis' => $kd['jenis'],
-        //             'kode' => $kd['kode'],
-        //             'deskripsi' => $kd['deskripsi'],
-        //             'indikator' => $ind,
-        //         ]
-        //     ];
-        // } else if(empty($id) && !empty($indikator))
-        // {
-        // }
     }
 }
