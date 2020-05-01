@@ -1,6 +1,8 @@
 <?php
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 // user
+
 Route::post('register', 'Api\RegisterController@action');
 Route::post('login', 'Api\LoginController@action');
 Route::get('me', 'Api\UserController@me')->middleware('auth:api');
@@ -28,3 +30,6 @@ Route::post('indikator', 'Api\IndikatorController@store')->middleware('auth:api'
 Route::post('indikator/get', 'Api\IndikatorController@get')->middleware('auth:api');
 Route::put('indikator/{id}', 'Api\IndikatorController@update')->middleware('auth:api');
 Route::delete('indikator/{id}', 'Api\IndikatorController@delete')->middleware('auth:api');
+
+// tujuan
+Route::post('tujuan', 'Api\TujuanController@get')->middleware('auth:api');

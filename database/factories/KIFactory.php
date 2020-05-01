@@ -11,7 +11,7 @@ $factory->define(KompetensiInti::class, function ($faker) {
     $faker = Faker::create('id_ID');
 
     return [
-        'user_id' => $faker->numberBetween(31,35),
+        'user_id' => $faker->numberBetween(1,5),
         'deskripsi' => $faker->text($maxNbChars = 100),
     ];
 });
