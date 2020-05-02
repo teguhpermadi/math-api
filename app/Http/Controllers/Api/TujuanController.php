@@ -21,4 +21,26 @@ class TujuanController extends Controller
             return TujuanResource::collection($tujuan);
         }
     }
+
+    public function update(Request $request, $id)
+    {
+        $tujuan = Tujuan::find($id);
+
+        $tujuan->update([
+            'kd3_id' => $request->kd3_id,
+            'kd4_id' => $request->kd4_id,
+            'deskripsi' => $request->deskripsi,
+        ]);
+
+        return new TujuanResource($tujuan);
+    }
+
+    public function delete($id)
+    {
+        $tujuan = Tujuan::find($id);
+
+        $tujuan->delete($id);
+
+        return ['message' => 'Data was deleted'];
+    }
 }
