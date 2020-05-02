@@ -18,8 +18,9 @@ class TujuanResource extends JsonResource
             'id' => $this->id,
             'deskripsi' => $this->deskripsi,
             'kd3' => $this->kd3,
-            'indikator3' => $this->indikator3,
+            'indikatorKd3' => $this->indikatorKd3,
             'kd4' => $this->kd4,
+            'indikatorKd4' => $this->indikatorKd4,
             'user_id' => $this->user,
         ];
     }

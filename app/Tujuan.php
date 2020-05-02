@@ -23,8 +23,13 @@ class Tujuan extends Model
         return $this->belongsTo(KompetensiDasar::class);   
     }
 
-    public function indikator3()
+    public function indikatorKd3()
     {
-        return $this->hasMany(Indikator::class, 'kompetensidasar_id', 'kd3_id');
+        return $this->hasManyThrough(Indikator::class, KompetensiDasar::class, 'id', 'kompetensidasar_id', 'kd3_id', 'id');
+    }
+
+    public function indikatorKd4()
+    {
+        return $this->hasManyThrough(Indikator::class, KompetensiDasar::class, 'id', 'kompetensidasar_id', 'kd4_id', 'id');
     }
 }
