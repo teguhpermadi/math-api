@@ -32,4 +32,13 @@ Route::put('indikator/{id}', 'Api\IndikatorController@update')->middleware('auth
 Route::delete('indikator/{id}', 'Api\IndikatorController@delete')->middleware('auth:api');
 
 // tujuan
-Route::post('tujuan', 'Api\TujuanController@get')->middleware('auth:api');
+Route::post('tujuan', 'Api\TujuanController@store')->middleware('auth:api');
+Route::post('tujuan/get', 'Api\TujuanController@get')->middleware('auth:api');
+Route::put('tujuan', 'Api\TujuanController@update')->middleware('auth:api');
+Route::delete('tujuan', 'Api\TujuanController@delete')->middleware('auth:api');
+
+// materi
+Route::post('materi', 'Api\MateriController@store')->middleware('auth:api');
+Route::post('materi/get', 'Api\MateriController@get')->middleware('auth:api');
+Route::put('materi', 'Api\MateriController@update')->middleware('auth:api');
+Route::delete('materi', 'Api\MateriController@delete')->middleware('auth:api');

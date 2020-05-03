@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TujuanResource;
-use App\Tujuan;
+use App\Http\Resources\MateriResource;
+use App\Materi;
 use Illuminate\Http\Request;
 
-class TujuanController extends Controller
+class MateriController extends Controller
 {
     public function get(Request $request)
     {
         if($request->has('id') == true){
             // jika mengirimkan id
-            $tujuan = Tujuan::find($request->id);
-            return new TujuanResource($tujuan);
+            $materi = Materi::find($request->id);
+            return new MateriResource($materi);
         } else {
             // jika tidak mengirimkan id
-            $tujuan = Tujuan::paginate(10);
-            return TujuanResource::collection($tujuan);
+            $materi = Materi::paginate(10);
+            return MateriResource::collection($materi);
         }
     }
 
@@ -26,40 +26,39 @@ class TujuanController extends Controller
     {
         $validatedData = $request->validate([
             // 'title' => ['required', 'unique:posts', 'max:255'],
-            'kd3_id' => ['required'],
-            'kd4_id' => ['required'],
+            'tujuan_id' => ['required'],
+            'gambar' => ['required'],
             'deskripsi' => ['required'],
         ]);
 
-        $tujuan = Tujuan::create([
+        $materi = Materi::create([
             'user_id' => auth()->id(),
-            'kd3_id' => $request->kd3_id,
-            'kd4_id' => $request->kd4_id,
+            'tujuan_id' => $request->tujuan_id,
+            'gambar' => $request->gambar,
             'deskripsi' => $request->deskripsi,
         ]);
 
-        return new TujuanResource($tujuan);
+        return new MateriResource($materi);
     }
 
     public function update(Request $request, $id)
     {
-        $tujuan = Tujuan::find($id);
+        $materi = Materi::find($id);
 
-        $tujuan->update([
-            'kd3_id' => $request->kd3_id,
-            'kd4_id' => $request->kd4_id,
+        $materi->update([
+            'tujuan_id' => $request->tujuan_id,
+            'gambar' => $request->gambar,
             'deskripsi' => $request->deskripsi,
         ]);
 
-        return new TujuanResource($tujuan);
+        return new MateriResource($materi);
     }
 
     public function delete($id)
     {
-        $tujuan = Tujuan::find($id);
-
-        $tujuan->delete($id);
-
+        $materi = Materi::find($id);
+        $materi->delete($id);
         return ['message' => 'Data was deleted'];
+
     }
 }

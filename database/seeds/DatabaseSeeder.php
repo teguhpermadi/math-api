@@ -1,5 +1,6 @@
 <?php
 
+use App\Materi;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(KompetensiDasarSeeder::class);
         $this->call(IndikatorSeeder::class);
         $this->call(TujuanSeeder::class);
+        $this->call(MateriSeeder::class);
     }
 }
